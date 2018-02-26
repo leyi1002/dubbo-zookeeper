@@ -10,7 +10,7 @@ public class ProviderMain {
     public static void main(String[] args){
         try {
             ClassPathXmlApplicationContext context =
-                    new ClassPathXmlApplicationContext("application.xml");
+                    new ClassPathXmlApplicationContext("cconf/application.xml");
             context.start();
             System.in.read();
         } catch (Exception e) {

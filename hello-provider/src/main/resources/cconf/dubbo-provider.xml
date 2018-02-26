@@ -9,7 +9,7 @@
 
     <dubbo:application name="hello-provider"/>
 
-    <dubbo:registry protocol="zookeeper" address="ip:2181"/>
+    <dubbo:registry protocol="zookeeper" address="IP:2181"/>
 
     <dubbo:protocol name="dubbo" port="20880"/>
 

@@ -3,7 +3,7 @@ cd `dirname $0`
 BIN_DIR=`pwd`
 cd ..
 DEPLOY_DIR=`pwd`
-CONF_DIR=$DEPLOY_DIR/conf
+CONF_DIR=$DEPLOY_DIR/cconf
 
 
 # =======================================================================================
@@ -29,7 +29,6 @@ if [ "$OS" != "linux" ] && [ "$OS" != "unix" ]; then
     echo "Unsupported OS: $OS"
     exit 1
 fi
-
 
 # =======================================================================================
 # 检测服务是否已经启动，或者端口号是否已经被占用
@@ -63,19 +62,19 @@ fi
 # 启动服务
 # =======================================================================================
 # dubbo服务配置参数
-SERVER_NAME=`sed '/^#/d;/dubbo.application.name/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
+SERVER_NAME=`sed '/^#/d;/dubbo.application.name/!d;s/.*=//' cconf/dubbo.properties | tr -d '\r'`
 if [ -z "$SERVER_NAME" ]; then
     SERVER_NAME=`hostname`
 fi
-SERVER_PORT=`sed '/^#/d;/prop.dubbo.protocol.port/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-SERVER_HOST=`sed '/^#/d;/dubbo.protocol.host/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
+SERVER_PORT=`sed '/^#/d;/dubbo.protocol.port/!d;s/.*=//' cconf/dubbo.properties | tr -d '\r'`
+SERVER_HOST=`sed '/^#/d;/dubbo.protocol.host/!d;s/.*=//' cconf/dubbo.properties | tr -d '\r'`
 if [ -z "$SERVER_HOST" ]; then
     SERVER_HOST=127.0.0.1
 fi
 
 # 日志：log4j.xml文件路径、日志路径、stdout日志文件名
-LOG4J_XML=`sed '/^#/d;/prop.log.log4j-xml/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-LOG_DIR=`sed '/^#/d;/prop.log.dir/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
+LOG4J_XML=`sed '/^#/d;/prop.log.log4j-xml/!d;s/.*=//' cconf/dubbo.properties | tr -d '\r'`
+LOG_DIR=`sed '/^#/d;/prop.log.dir/!d;s/.*=//' cconf/dubbo.properties | tr -d '\r'`
 if [ -n "$LOG_DIR" ]; then
     LOG_DIR=`dirname $LOG_DIR/stdout.log`
 else
@@ -85,7 +84,7 @@ if [ ! -d $LOG_DIR ]; then
     # 日志目录不存在，创建这个目录
     mkdir -p $LOG_DIR
 fi
-LOG_STDOUT=`sed '/^#/d;/prop.log.stdout-file/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
+LOG_STDOUT=`sed '/^#/d;/prop.log.stdout-file/!d;s/.*=//' cconf/dubbo.properties | tr -d '\r'`
 if [ -z "$LOG_STDOUT" ]; then
     LOG_STDOUT=$LOG_DIR/stdout.log
 else
@@ -99,7 +98,7 @@ CLASS_PATH=$CONF_DIR:$LIB_JARS
 
 #2016.6.1原来的配置，现在改成下方配置，运维那边下方的配置后，服务器没再出过问题，否则容易挂掉，因为内存默认太小
 #JAVA_OPTS=" -Dfile.encoding=utf-8 -Duser.language=en -Duser.country=US -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dlog4j.configuration=$LOG4J_XML "
-#JAVA_MEM_OPTS=`sed '/^#/d;/prop.jvm.mem-opts/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
+#JAVA_MEM_OPTS=`sed '/^#/d;/prop.jvm.mem-opts/!d;s/.*=//' cconf/dubbo.properties | tr -d '\r'`
 
 JAVA_OPTS=" -Dfile.encoding=utf-8 -Duser.language=en -Duser.country=US -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dlog4j.configuration=$LOG4J_XML "
 JAVA_MEM_OPTS=" -server -Xmx2g -Xms2g -Xmn256m -XX:PermSize=128m -Xss256k -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 "

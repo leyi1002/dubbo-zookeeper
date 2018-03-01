@@ -1,6 +1,6 @@
 @echo off & setlocal enabledelayedexpansion
 
-set LIB_JARS=..\conf
+set LIB_JARS=..\cconf
 cd ..\lib
 for %%i in (*) do set LIB_JARS=!LIB_JARS!;..\lib\%%i
 cd ..\bin

@@ -9,9 +9,9 @@ cd `dirname $0`
 BIN_DIR=`pwd`
 cd ..
 DEPLOY_DIR=`pwd`
-CONF_DIR=$DEPLOY_DIR/conf
+CONF_DIR=$DEPLOY_DIR/cconf
 
-SERVER_NAME=`sed '/^#/d;/dubbo.application.name/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
+SERVER_NAME=`sed '/^#/d;/dubbo.application.name/!d;s/.*=//' cconf/dubbo.properties | tr -d '\r'`
 if [ -z "$SERVER_NAME" ]; then
 	SERVER_NAME=`hostname`
 fi

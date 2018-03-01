@@ -1,5 +1,6 @@
 package com.test.provider;
 
+import com.alibaba.dubbo.container.spring.SpringContainer;
 import org.springframework.stereotype.Service;
 
 /**

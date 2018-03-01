@@ -114,46 +114,8 @@
             </resource>
         </resources>
         <plugins>
-            <!--&lt;!&ndash;第一种打包方式&ndash;&gt;
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                   &lt;!&ndash; <classesDirectory>target/classes/</classesDirectory>&ndash;&gt;
-                    <archive>
-                        <manifest>
-                            <mainClass>com.alibaba.dubbo.container.Main</mainClass>
-                            &lt;!&ndash; 打包时 MANIFEST.MF文件不记录的时间戳版本 &ndash;&gt;
-                            <useUniqueVersions>false</useUniqueVersions>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                        </manifest>
-                        <manifestEntries>
-                            <Class-Path>.</Class-Path>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <type>jar</type>
-                            <includeTypes>jar</includeTypes>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            &lt;!&ndash;该插件可以做额外的文件打包，比如bin目录，conf配置文件夹。使用java 命令启动可忽略该插件&ndash;&gt;
+            <!--脚本启动使用的插件-->
+            <!--该插件可以做额外的文件打包，比如bin目录，conf配置文件夹。使用java 命令启动可忽略该插件-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -166,43 +128,13 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            &lt;!&ndash;打包后的报名&ndash;&gt;
-                            <finalName>job-deploy</finalName>
-                            &lt;!&ndash; 包名是否追加assemble-descriptor.xml中的id&ndash;&gt;
+                            <!--打包后的报名-->
+                            <finalName>deploy-jar</finalName>
+                            <!-- 包名是否追加assemble-descriptor.xml中的id-->
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
                                 <descriptor>src/main/resources/assemble/assemble-descriptor.xml</descriptor>
                             </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
-            <!--第二种打包方式-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.alibaba.dubbo.container.Main</mainClass>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/spring.handlers</resource>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/spring.schemas</resource>
-                                </transformer>
-                            </transformers>
                         </configuration>
                     </execution>
                 </executions>
